@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analysis</title>
+    <script>
+        // Function to send POST request to the backend API
+        function analyzeText() {
+            const text = document.getElementById("textInput").value;
+
+            fetch("http://127.0.0.1:8000/analyze/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text: text }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // You can view the response in the console
+                document.getElementById("result").textContent = `Label: ${data.label}, Score: ${data.score}`;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Text Analysis</h1>
+    <label for="textInput">Enter Text:</label>
+    <input type="text" id="textInput" placeholder="Enter text to analyze">
+    <button onclick="analyzeText()">Analyze</button>
+
+    <h3>Analysis Result:</h3>
+    <div id="result"></div>
+</body>
+</html>
+
